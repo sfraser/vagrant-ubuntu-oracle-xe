@@ -8,7 +8,7 @@ Vagrant.configure("2") do |config|
 
   config.vm.box = "precise64"
   config.vm.box_url = "http://files.vagrantup.com/precise64.box"
-  config.vm.hostname = "oracle"
+  config.vm.hostname = "oracle-db-and-java"
 
   # Forward Oracle port
   config.vm.network :forwarded_port, guest: 1521, host: 1521
@@ -57,6 +57,6 @@ Vagrant.configure("2") do |config|
       }
     }
     
-  chef.add_recipe "java"
-
+    chef.add_recipe "java"
+  end
 end
