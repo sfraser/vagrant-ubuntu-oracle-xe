@@ -35,4 +35,28 @@ Vagrant.configure("2") do |config|
     puppet.manifest_file = "base.pp"
     puppet.options = "--verbose --trace"
   end
+
+  # A little confusing but we are going to use Chef to install Java 7... that's what I have working for now: -SEF 2/2014
+  # Plugins
+  config.berkshelf.enabled = true
+  config.omnibus.chef_version = :latest
+
+  # Network
+  config.vm.network :forwarded_port, guest: 80, host: 8080
+
+  # Chef solo provisioning
+  config.vm.provision :chef_solo do |chef|
+    
+    chef.json = {
+      "java" => {
+        "install_flavor" => "oracle",
+        "jdk_version" => "7",
+        "oracle" => {
+          "accept_oracle_download_terms" => true
+        }
+      }
+    }
+    
+  chef.add_recipe "java"
+
 end
